@@ -39,7 +39,7 @@ module PivotalTracker
     element :project_id, Integer
     element :description, String
 
-    has_many :stories, Story, :xpath => '//stories'
+    has_many :stories, Story, :xpath => './stories'
 
   end
 end

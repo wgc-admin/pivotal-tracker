@@ -43,7 +43,7 @@ module PivotalTracker
     element :integration_id, Integer
     element :deadline, DateTime # Only available for Release stories
 
-    has_many :attachments, Attachment, :tag => 'attachments', :xpath => '//attachments'
+    has_many :attachments, Attachment, :tag => 'attachments', :xpath => './attachments'
 
     def initialize(attributes={})
       if attributes[:owner]
@@ -65,7 +65,7 @@ module PivotalTracker
       response = Client.connection["/projects/#{project_id}/stories/#{id}"].put(self.to_xml, :content_type => 'application/xml')
       return Story.parse(response)
     end
-    
+
     def move(position, story)
       raise ArgumentError, "Can only move :before or :after" unless [:before, :after].include? position
       Story.parse(Client.connection["/projects/#{project_id}/stories/#{id}/moves?move\[move\]=#{position}&move\[target\]=#{story.id}"].post(''))
